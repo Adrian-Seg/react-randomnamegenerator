@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Container, Row, Col, Button } from "react-bootstrap"
+import '../styles/MainPage.css'
 
 const MainPage = () => {
     const [addedName, setAddedName] = useState('');
@@ -17,30 +18,36 @@ const MainPage = () => {
         setList([...list, addedName]);
         setAddedName('');
     }
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            setList([...list, addedName]);
+            setAddedName('');
+        }
+    }
     // Removing selected element from array
     const handleRemove = (index) => {
         setList([
-        ...list.slice(0, index),
-        ...list.slice(index + 1, list.length
+            ...list.slice(0, index),
+            ...list.slice(index + 1, list.length
         )]);
     }
 
     return (
-        <Container>
+        <Container className="mainCon">
             <Row>
                 <Col className="center">
-                    <label>Name: </label>
-                    <input type="text"  onChange={ (e) => handleChange(e.target.value)} value={addedName}></input>
+                    <label>Name:</label>
+                    <input type="text" onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown} value={addedName}></input>
                     <Button onClick={handleClick}>Submit</Button>
                 </Col>
             </Row>
             <Row>
                 <Col>
-                {
-                    list.map((name, index) => {
-                        return <h1 key={index} onClick={() => handleRemove(index)} >{name} - {index}</h1>
-                    })
-                }                
+                    {
+                        list.map((name, index) => {
+                            return <h1 key={index} onClick={() => handleRemove(index)} >{name} - {index}</h1>
+                        })
+                    }
                 </Col>
             </Row>
             <Button onClick={logArray}>Log array</Button>
