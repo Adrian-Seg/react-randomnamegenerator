@@ -5,14 +5,14 @@ import '../styles/MainPage.css'
 const MainPage = () => {
     const [addedName, setAddedName] = useState('');
     const [list, setList] = useState([]);
+    const [randomName, setRandomName] = useState('');
+
 
     // Binding text input to variable
     const handleChange = (e) => {
         setAddedName(e);
     }
-    const logArray = (e) => {
-        console.log(list);
-    }
+
     // Binding text variable to array and resetting text input
     const handleClick = () => {
         setList([...list, addedName]);
@@ -24,14 +24,20 @@ const MainPage = () => {
             setAddedName('');
         }
     }
+
     // Removing selected element from array
     const handleRemove = (index) => {
         setList([
             ...list.slice(0, index),
             ...list.slice(index + 1, list.length
-        )]);
+            )]);
     }
 
+    const getRandomName = () => {
+        console.log(list);
+        setRandomName(list[Math.floor(Math.random() * list.length)]);
+        console.log(randomName);
+    }
     return (
         <Container className="mainCon">
             <Row>
@@ -42,15 +48,29 @@ const MainPage = () => {
                 </Col>
             </Row>
             <Row>
-                <Col>
-                    {
-                        list.map((name, index) => {
-                            return <h1 key={index} onClick={() => handleRemove(index)} >{name} - {index}</h1>
-                        })
-                    }
-                </Col>
+                {
+                    list.map((name, index) => {
+                        // return <h1 key={index} onClick={() => handleRemove(index)} >{name} - {index}</h1>
+                        return (
+                            <Col key={index} className="nameItem">
+                                <h1  >{name} - {index}</h1>
+                                <div className="nameDeleteBtn">
+                                    <Button onClick={() => handleRemove(index)}>Delete Name</Button>
+                                </div>
+                            </Col>
+                        )
+
+                    })
+                }
             </Row>
-            <Button onClick={logArray}>Log array</Button>
+            <Row>
+                <Col>
+                    <Button onClick={getRandomName}>Get a Random Name</Button>
+                </Col>
+                {
+                    randomName ? <h1>{randomName}</h1> : null
+                }
+            </Row>
         </Container>
     )
 }

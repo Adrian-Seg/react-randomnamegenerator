@@ -2,3 +2,13 @@
     /* height: 100vh; */
     padding-top: 36px;
 }
+
+.nameItem {
+    display: flex;
+    flex-direction: row;
+}
+
+.nameDeleteBtn {
+    display: flex;
+    align-items: center;
+}
